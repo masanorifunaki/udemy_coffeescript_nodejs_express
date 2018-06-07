@@ -1,0 +1,1 @@
+console.log "#{i} : #{argv}" for argv, i in process.argv
