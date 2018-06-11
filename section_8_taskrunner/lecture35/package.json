@@ -1,0 +1,17 @@
+{
+  "name": "lecture35",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "gulp": "gulp",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "coffee-script": "^1.12.7",
+    "gulp": "^3.9.1",
+    "gulp-coffee": "^3.0.2"
+  }
+}
