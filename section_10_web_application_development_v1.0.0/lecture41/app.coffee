@@ -10,6 +10,7 @@ app.use "/public", express.static __dirname + "/public"
 app.use accesslogger()
 
 app.use "/", require "./routes/index.coffee"
+app.use "/post", require "./routes/post.coffee"
 
 app.use systemlogger()
 
