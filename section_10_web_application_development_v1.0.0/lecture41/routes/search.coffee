@@ -1,5 +1,5 @@
-MAX_ITEMS_PER_PAGE = require("../config/app.config.js").search.MAX_ITEMS_PER_PAGE
-CONNECTION_URL = require("../config/mongodb.config.js").CONNECTION_URL
+MAX_ITEMS_PER_PAGE = require("../config/app.config.coffee").search.MAX_ITEMS_PER_PAGE
+CONNECTION_URL = require("../config/mongodb.config.coffee").CONNECTION_URL
 router = require("express").Router()
 MongoClient = require("mongodb").MongoClient
 

@@ -40,3 +40,23 @@ MongoClient.connect url, (err, db) ->
       )
       (err, result) ->
         db.close()
+
+MongoClient.connect(url).then((db) ->
+  db = db.db "weblog"
+  Promise.all([
+    db.collection("users")
+      .insertOne(
+        email: "yuta.sato@sample.com",
+        name: "Yuta Sato",
+        password: "qwerty",
+        role: "owner"
+      )
+    db.collection("users")
+      .createIndex(
+        { email: 1 },
+        { unique: true, background: true }
+      )
+  ]).then((result) ->
+    db.close()
+  ).catch (err) ->
+)

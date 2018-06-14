@@ -1,5 +1,8 @@
-CONNECTION_URL = require("../config/mongodb.config.js").CONNECTION_URL
+CONNECTION_URL = require("../config/mongodb.config.coffee").CONNECTION_URL
 router = require("express").Router()
+authenticate = require("../lib/security/accountcontrol.coffee").authenticate
+authorize = require("../lib/security/accountcontrol.coffee").authorize
+initialize = require("../lib/security/accountcontrol.coffee").initialize
 MongoClient = require("mongodb").MongoClient
 
 validate = (body) ->
@@ -30,13 +33,23 @@ createRegistData = (body) ->
 
   return data
 
-router.get "/", (req, res) ->
+
+router.get "/", authorize("owner"), (req, res) ->
   res.render "account"
 
-router.get "/post/regist", (req, res) ->
+router.get "/login", (req, res) ->
+  res.render "login", message: req.flash("message")
+
+router.post "/login", authenticate()
+
+router.post "/logout", authorize("owner"), (req, res) ->
+  req.logout()
+  res.redirect "/account/login"
+
+router.get "/post/regist", authorize("owner"), (req, res) ->
   res.render "regist-form"
 
-router.post "/post/regist", (req, res) ->
+router.post "/post/regist", authorize("owner"), (req, res) ->
   body = req.body
   errors = validate(body)
   original = createRegistData(body)

@@ -8,3 +8,8 @@ nav.navbar.navbar-default
           a(href="/search") search
         li
           a(href="/account") account
+      //- - console.log(locals.user)
+      if locals.user
+        form(action="/account/logout", method="post").navbar-for.navbar-right
+          div.form-group
+            input(type="submit", value="logout").btn.btn-default

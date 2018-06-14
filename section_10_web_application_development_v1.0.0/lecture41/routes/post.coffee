@@ -1,5 +1,5 @@
 router = require("express").Router()
-CONNECTION_URL = require("../config/mongodb.config.js").CONNECTION_URL
+CONNECTION_URL = require("../config/mongodb.config.coffee").CONNECTION_URL
 MongoClient = require("mongodb").MongoClient
 
 router.get "/*", (req, res) ->
