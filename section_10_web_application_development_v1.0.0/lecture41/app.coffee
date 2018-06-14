@@ -10,6 +10,7 @@ flash = require "connect-flash"
 bodyParser = require "body-parser"
 app = express()
 
+app.disable "x-powered-by"
 app.set "view engine", "pug"
 
 app.use "/public", express.static __dirname + "/public"
@@ -33,6 +34,7 @@ app.use "/", require "./routes/index.coffee"
 app.use "/post", require "./routes/post.coffee"
 app.use "/search", require "./routes/search.coffee"
 app.use "/account", require "./routes/account.coffee"
+app.use "/api/post", require "./api/post.coffee"
 
 app.use systemlogger()
 
