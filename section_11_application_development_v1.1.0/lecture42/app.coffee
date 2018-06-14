@@ -1,5 +1,6 @@
 express = require "express"
 app = express()
+logger = require("./lib/log/logger.coffee").console
 
 app.set "view engine", "pug"
 app.disable "x-powered-by"
