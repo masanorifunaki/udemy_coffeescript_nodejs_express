@@ -1,7 +1,7 @@
-CONNECTION_URL = require("../../config/monogodb.config.coffee").CONNECTION_URL
-DATABSE = require("../../config/monogodb.config.coffee").DATABSE
-OPTIONS = require("../../config/monogodb.config.coffee").OPTIONS
-MongoClient = require("mongodb").MongoClient
+CONNECTION_URL = require('../../config/monogodb.config.coffee').CONNECTION_URL
+DATABSE = require('../../config/monogodb.config.coffee').DATABSE
+OPTIONS = require('../../config/monogodb.config.coffee').OPTIONS
+MongoClient = require('mongodb').MongoClient
 
 # posts, users, privileges
 insertPosts = (db) ->
@@ -35,35 +35,35 @@ insertPosts = (db) ->
         authors: [ 'Yuta Sato' ]
       }
   ]),
-    db.collection("posts")
+    db.collection('posts')
       .createIndex({ url: 1 }, { unique: true, background: true })
   ]
 
 insertUsers = (db) ->
   Promise.all [
-    db.collection("users").insertOne(
-      email: "yuta.sato@sample.com"
-      name: "Yuta Sato"
-      password: "qwerty"
-      role: "owner")
-    db.collection("users").createIndex({ email: 1 },
+    db.collection('users').insertOne(
+      email: 'yuta.sato@sample.com'
+      name: 'Yuta Sato'
+      password: 'qwerty'
+      role: 'owner')
+    db.collection('users').createIndex({ email: 1 },
       unique: true
       background: true)
   ]
 
 insertPrivileges = (db) ->
   Promise.all [
-    db.collection("privileges").insertMany([
+    db.collection('privileges').insertMany([
       {
-        role: "default"
-        permissions: [ "read" ]
+        role: 'default'
+        permissions: [ 'read' ]
       }
       {
-        role: "owner"
-        permissions: [ "readWrite" ]
+        role: 'owner'
+        permissions: [ 'readWrite' ]
       }
     ])
-    db.collection("privileges").createIndex({ role: 1 },
+    db.collection('privileges').createIndex({ role: 1 },
       unique: true
       background: true)
   ]
