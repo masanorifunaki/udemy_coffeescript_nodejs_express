@@ -9,13 +9,27 @@ html(lang='ja')
   body
     include ../_share/navbar.pug
     main.container
+      .float-right
+        span.badge.badge-secondary #{data.count}
       form(action="/search", method="get").form-inline.mt-5.mb-5
-        input(type="text", name="keyword")#keyword.form-control
+        - var keyword = data.keyword || ''
+        input(type="text", name="keyword" value=`${keyword}`)#keyword.form-control
         input(type="submit", value="検索").btn.btn-info.ml-2
 
-    .mt-5.mb-5
-      each list in data.lists
-        include ./item.pug
+      .mt-5.mb-5
+        each list in data.lists
+          include ./item.pug
+
+      nav
+        ul.pagination
+          - for (i = 1; i <= data.pagination.max; i++)
+            if i !== data.pagination.current
+              li.page-item
+                a(href!=`/search?keyword=${keyword}&page=${i}`).page-link #{i}
+            else
+              li.page-item.active
+                a
+                  span.page-link.disabled #{i}
 
     include ../_share/javascripts.pug
 
