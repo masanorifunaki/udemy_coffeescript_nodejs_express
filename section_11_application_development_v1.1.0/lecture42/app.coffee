@@ -14,4 +14,10 @@ app.use "/", require "./routes/index.coffee"
 
 app.use systemlogger()
 
+
+# application log用
+# logger = require("./lib/log/logger.coffee").application
+# logger.addContext "key", "test"
+# logger.error "message"
+
 app.listen 3000
