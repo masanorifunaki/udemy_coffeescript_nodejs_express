@@ -15,6 +15,11 @@ module.exports =
       base: path.join ROOT, "./log/application/"
       property: "key"
       extension: ".log"
+    DateRollingFileLogAppender:
+      type: "dateFile"
+      filename: path.join ROOT, "./log/access/access.log"
+      pattern: "-yyyyMMdd"
+      daysToKeep: 30
   categories:
     "default":
       appenders: ["ConsoleLogAppender"]
@@ -25,3 +30,6 @@ module.exports =
     application:
       appenders: ["MultiFileLogAppender"]
       level: "ERROR"
+    access:
+      appenders: ["DateRollingFileLogAppender"]
+      level: "INFO"

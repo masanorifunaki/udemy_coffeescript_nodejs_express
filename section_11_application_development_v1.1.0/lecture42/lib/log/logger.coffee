@@ -10,8 +10,11 @@ system = log4js.getLogger "system"
 
 application = log4js.getLogger "application"
 
+access = log4js.getLogger "access"
+
 module.exports = {
   console,
   system,
   application
+  access
 }
