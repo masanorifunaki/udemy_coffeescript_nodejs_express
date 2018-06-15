@@ -36,7 +36,9 @@ insertPosts = (db) ->
       }
   ]),
     db.collection('posts')
-      .createIndex({ url: 1 }, { unique: true, background: true })
+      .createIndex({ url: 1 },
+      unique: true
+      background: true)
   ]
 
 insertUsers = (db) ->
