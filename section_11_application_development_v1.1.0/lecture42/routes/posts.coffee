@@ -12,7 +12,7 @@ router.get '/*', (req, res) ->
     ).then((doc) ->
       doc =
         doc: doc
-      res.render( './posts/index', doc)
+      res.render './posts/index', doc
     ).catch((error) ->
       throw error
     ).then ->

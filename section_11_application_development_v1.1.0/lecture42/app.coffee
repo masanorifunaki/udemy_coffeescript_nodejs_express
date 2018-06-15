@@ -15,6 +15,7 @@ app.use accesslogger()
 
 app.use '/', require './routes/index.coffee'
 app.use '/posts/', require './routes/posts.coffee'
+app.use '/search/', require './routes/search.coffee'
 
 app.use systemlogger()
 

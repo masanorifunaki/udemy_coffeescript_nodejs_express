@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+html(lang='ja')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    title 検索
+    include ../_share/stylesheets.pug
+  body
+    include ../_share/navbar.pug
+    main.container
+      form(action="/search", method="get").form-inline.mt-5.mb-5
+        input(type="text", name="keyword")#keyword.form-control
+        input(type="submit", value="検索").btn.btn-info.ml-2
+
+    .mt-5.mb-5
+      each list in data.lists
+        include ./item.pug
+
+    include ../_share/javascripts.pug
+
+
