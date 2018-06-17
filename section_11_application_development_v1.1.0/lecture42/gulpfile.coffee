@@ -8,14 +8,14 @@ load './gulp/tasks', recurse: true
 development = [
   'copy-third_party',
   'copy-images',
-  'copy-coffee',
+  'copy-javascripts',
   'compile-sass'
 ]
 
 production = [
   'copy-third_party',
   'copy-images',
-  'copy-coffee',
+  'copy-javascripts',
   'compile-sass'
 ]
 
