@@ -1,3 +1,7 @@
+CONNECTION_URL = require('../config/monogodb.config.coffee').CONNECTION_URL
+DATABSE = require('../config/monogodb.config.coffee').DATABSE
+OPTIONS = require('../config/monogodb.config.coffee').OPTIONS
+MongoClient = require('mongodb').MongoClient
 router = require('express').Router()
 
 validateRegistData = (body) ->
@@ -47,5 +51,25 @@ router.post '/posts/regist/confirm', (req, res) ->
       original: original
     return
   res.render './account/posts/regist-confirm', original: original
+
+router.post '/posts/regist/execute', (req, res) ->
+  original = createRegistData(req.body)
+  errors = validateRegistData(req.body)
+  if errors
+    res.render './account/posts/regist-form',
+      errors: errors
+      original: original
+    return
+
+  MongoClient.connect CONNECTION_URL, OPTIONS, (error, client) ->
+    db = client.db DATABSE
+    db.collection('posts')
+    .insertOne(original)
+    .then(() ->
+      res.render './account/posts/regist-complete'
+    ).catch((error) ->
+      throw error
+    ).then ->
+      client.close()
 
 module.exports = router
