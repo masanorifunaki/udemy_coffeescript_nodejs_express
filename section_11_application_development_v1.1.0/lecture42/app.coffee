@@ -5,7 +5,7 @@ express = require 'express'
 bodyParser = require 'body-parser'
 initialize = require('./lib/security/accountcontrol.coffee').initialize
 authenticate = require('./lib/security/accountcontrol.coffee').authenticate
-#authorize = require('./lib/security/accountcontrol.coffee').authorize
+authorize = require('./lib/security/accountcontrol.coffee').authorize
 cookieParser = require 'cookie-parser'
 session = require 'express-session'
 flash = require 'connect-flash'
@@ -39,6 +39,7 @@ app.use '/', require './routes/index.coffee'
 app.use '/posts/', require './routes/posts.coffee'
 app.use '/search/', require './routes/search.coffee'
 app.use '/account/', require './routes/account.coffee'
+app.use '/api/posts', require './api/posts.coffee'
 
 app.use systemlogger()
 
