@@ -15,6 +15,17 @@ passport.deserializeUser (email, done) ->
     db.collection('users')
       .findOne({ email })
       .then((user) ->
+        return new Promise((resolve, reject) ->
+           db.collection('privileges')
+            .findOne(role: user.role)
+            .then((privilege) ->
+              user.permissions = privilege.permissions
+              resolve user
+            ).catch((error) ->
+              reject error
+            )
+        )
+      ).then((user) ->
         done(null, user)
       ).catch((error) ->
         done(error)
@@ -63,9 +74,16 @@ authenticate = ->
     failureRedirect: '/account/login'
   )
 
+authorize = (privilege) ->
+  return (req, res, next) ->
+    if req.isAuthenticated() && (req.user.permissions || []).indexOf(privilege) >= 0
+      next()
+    else
+      res.redirect '/account/login'
+
 
 
 module.exports =
   initialize: initialize
   authenticate: authenticate
-  #authorize: authorize
+  authorize: authorize
