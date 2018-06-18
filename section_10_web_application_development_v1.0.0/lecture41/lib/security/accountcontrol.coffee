@@ -1,8 +1,8 @@
-CONNECTION_URL = require("../../config/mongodb.config.coffee").CONNECTION_URL
-DATABASE = require("../../config/mongodb.config.coffee").DATABASE
-passport = require "passport"
-LocalStrategy = require("passport-local").Strategy
-MongoClient = require("mongodb").MongoClient
+CONNECTION_URL = require('../../config/mongodb.config.coffee').CONNECTION_URL
+DATABASE = require('../../config/mongodb.config.coffee').DATABASE
+passport = require 'passport'
+LocalStrategy = require('passport-local').Strategy
+MongoClient = require('mongodb').MongoClient
 
 
 passport.serializeUser (email, done) ->
@@ -10,7 +10,7 @@ passport.serializeUser (email, done) ->
 
 passport.deserializeUser (email, done) ->
   MongoClient.connect(CONNECTION_URL).then((client) ->
-      client.db(DATABASE).collection("users")
+      client.db(DATABASE).collection('users')
       .findOne({
         email: { $eq: email }
       })
@@ -24,21 +24,21 @@ passport.deserializeUser (email, done) ->
     done err
 
 passport.use(
-  "local-login",
+  'local-login',
   new LocalStrategy {
-    usernameField: "username",
-    passwordField: "password",
+    usernameField: 'username',
+    passwordField: 'password',
     passReqToCallback: true
   }, (req, username, password, done) ->
     MongoClient.connect(CONNECTION_URL).then((client) ->
-      client.db(DATABASE).collection("users").findOne({
+      client.db(DATABASE).collection('users').findOne({
           email: { $eq: username },
           password: { $eq: password }
         })
     ).then((user) ->
       done null, user.email
     ).catch (err) ->
-      done null, false, req.flash("message", "ユーザー名 または パスワード が違います。")
+      done null, false, req.flash('message', 'ユーザー名 または パスワード が違います。')
 )
 
 initialize = ->
@@ -53,9 +53,9 @@ initialize = ->
 
 authenticate = ->
   return passport.authenticate(
-    "local-login", {
-      successRedirect: "/account",
-      failureRedirect: "/account/login"
+    'local-login', {
+      successRedirect: '/account',
+      failureRedirect: '/account/login'
     }
   )
 
@@ -64,7 +64,7 @@ authorize = (role) ->
     if req.isAuthenticated() && req.user.role == role
       next()
     else
-      res.redirect "/account/login"
+      res.redirect '/account/login'
 
 module.exports = {
   initialize,

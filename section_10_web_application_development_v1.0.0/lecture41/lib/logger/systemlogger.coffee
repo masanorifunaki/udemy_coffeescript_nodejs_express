@@ -1,5 +1,5 @@
-log4js = require "log4js"
-logger = require "./logger.coffee"
+log4js = require 'log4js'
+logger = require './logger.coffee'
 system = logger.system
 
 module.exports = (options) ->

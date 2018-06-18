@@ -1,17 +1,17 @@
-CONNECTION_URL = require("../config/mongodb.config.coffee").CONNECTION_URL
-DATABASE = require("../config/mongodb.config.coffee").DATABASE
+CONNECTION_URL = require('../config/mongodb.config.coffee').CONNECTION_URL
+DATABASE = require('../config/mongodb.config.coffee').DATABASE
 
-router = require("express").Router()
-MongoClient = require("mongodb").MongoClient
+router = require('express').Router()
+MongoClient = require('mongodb').MongoClient
 
-router.get "/*", (req, res) ->
+router.get '/*', (req, res) ->
   MongoClient.connect CONNECTION_URL, (err, client) ->
     if err
       throw err
 
     db = client.db DATABASE
 
-    db.collection("posts")
+    db.collection('posts')
       .findOne({ url: { $eq: req.url } })
       .then((post) ->
         if post
