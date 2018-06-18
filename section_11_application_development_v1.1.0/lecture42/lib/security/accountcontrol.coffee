@@ -1,6 +1,7 @@
 CONNECTION_URL = require('../../config/monogodb.config.coffee').CONNECTION_URL
 DATABSE = require('../../config/monogodb.config.coffee').DATABSE
 OPTIONS = require('../../config/monogodb.config.coffee').OPTIONS
+hash = require './hash.coffee'
 passport = require 'passport'
 LocalStrategy = require('passport-local').Strategy
 MongoClient = require('mongodb').MongoClient
@@ -44,7 +45,7 @@ passport.use(
       db.collection('users')
         .findOne(
           email: username,
-          password: password
+          password: hash.digest password
         ).then((user) ->
           if user
             req.session.regenerate (error) ->
