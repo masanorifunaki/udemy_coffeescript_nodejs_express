@@ -35,11 +35,21 @@ app.use flash()
 for i in initialize()
   app.use i
 
-app.use '/', require './routes/index.coffee'
-app.use '/posts/', require './routes/posts.coffee'
-app.use '/search/', require './routes/search.coffee'
-app.use '/account/', require './routes/account.coffee'
-app.use '/api/posts', require './api/posts.coffee'
+app.use '/api', do ->
+  router = express.Router()
+  router.use '/posts', require './api/posts.coffee'
+  return router
+
+app.use '/', do ->
+  router = express.Router()
+  router.use (req, res, next) ->
+    res.setHeader 'X-Frame-Options', 'SAMEORIGIN'
+    next()
+  router.use '/posts/', require './routes/posts.coffee'
+  router.use '/search/', require './routes/search.coffee'
+  router.use '/account/', require './routes/account.coffee'
+  router.use '/', require './routes/index.coffee'
+  return router
 
 app.use systemlogger()
 
