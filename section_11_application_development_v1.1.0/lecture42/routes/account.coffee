@@ -3,6 +3,7 @@ DATABSE = require('../config/monogodb.config.coffee').DATABSE
 OPTIONS = require('../config/monogodb.config.coffee').OPTIONS
 MongoClient = require('mongodb').MongoClient
 router = require('express').Router()
+tokens = new require('csrf')()
 
 validateRegistData = (body) ->
   isValidated = true
@@ -35,7 +36,11 @@ router.get '/', (req, res) ->
   res.render './account/index'
 
 router.get '/posts/regist', (req, res) ->
-  res.render './account/posts/regist-form'
+  tokens.secret (error, secret) ->
+    token = tokens.create secret
+    req.session._csrf = secret
+    res.cookie '_csrf', token
+    res.render './account/posts/regist-form'
 
 router.post '/posts/regist/input', (req, res) ->
   original = createRegistData req.body
@@ -53,8 +58,16 @@ router.post '/posts/regist/confirm', (req, res) ->
   res.render './account/posts/regist-confirm', original: original
 
 router.post '/posts/regist/execute', (req, res) ->
+
+  secret = req.session._csrf
+  token = req.cookies._csrf
+
+  if tokens.verify(secret, token) == false
+    throw new Error 'Invalid Token.'
+
   original = createRegistData(req.body)
   errors = validateRegistData(req.body)
+
   if errors
     res.render './account/posts/regist-form',
       errors: errors
@@ -66,6 +79,8 @@ router.post '/posts/regist/execute', (req, res) ->
     db.collection('posts')
     .insertOne(original)
     .then(() ->
+      delete req.session._csrf
+      res.clearCookie '_csrf'
       res.render './account/posts/regist-complete'
     ).catch((error) ->
       throw error

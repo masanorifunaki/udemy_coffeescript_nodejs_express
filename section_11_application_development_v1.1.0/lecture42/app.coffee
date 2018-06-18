@@ -1,7 +1,10 @@
+SESSION_SECRET = require('./config/app.config.coffee').security.SESSION_SECRET
 accesslogger = require './lib/log/accsesslogger.coffee'
 systemlogger = require './lib/log/systemlogger.coffee'
 express = require 'express'
 bodyParser = require 'body-parser'
+cookieParser = require 'cookie-parser'
+session = require 'express-session'
 app = express()
 
 
@@ -13,6 +16,14 @@ app.use('/public', express.static(__dirname + '/public/development'))
 # `app.use('/public', express.static(__dirname + '/public/' + (process.env.NODE_ENV === 'development' ? 'development' : 'production')));`
 
 app.use accesslogger()
+
+app.use cookieParser()
+app.use session(
+  secret: SESSION_SECRET
+  resave: false
+  saveUninitialized: true
+  name: "sid"
+)
 
 app.use bodyParser.urlencoded extended: true
 app.use bodyParser.json()
