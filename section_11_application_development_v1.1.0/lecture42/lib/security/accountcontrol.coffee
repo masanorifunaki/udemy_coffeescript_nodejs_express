@@ -64,7 +64,11 @@ passport.use(
 initialize = ->
   return [
     passport.initialize(),
-    passport.session()
+    passport.session(),
+    (req, res, next) ->
+      if req.user
+        res.locals.user = req.user
+      next()
   ]
 
 authenticate = ->

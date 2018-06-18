@@ -43,6 +43,10 @@ router.get '/login', (req, res) ->
 
 router.post '/login', authenticate()
 
+router.post '/logout', (req, res) ->
+  req.logout()
+  res.redirect '/account/login'
+
 router.get '/posts/regist', (req, res) ->
   tokens.secret (error, secret) ->
     token = tokens.create secret
@@ -50,12 +54,12 @@ router.get '/posts/regist', (req, res) ->
     res.cookie '_csrf', token
     res.render './account/posts/regist-form'
 
-router.post '/posts/regist/input', (req, res) ->
+router.post '/posts/regist/input', authorize('readWrite'), (req, res) ->
   original = createRegistData req.body
   res.render './account/posts/regist-form', original: original
 
 
-router.post '/posts/regist/confirm', (req, res) ->
+router.post '/posts/regist/confirm', authorize('readWrite'), (req, res) ->
   original = createRegistData(req.body)
   errors = validateRegistData(req.body)
   if errors
@@ -65,7 +69,7 @@ router.post '/posts/regist/confirm', (req, res) ->
     return
   res.render './account/posts/regist-confirm', original: original
 
-router.post '/posts/regist/execute', (req, res) ->
+router.post '/posts/regist/execute', authorize('readWrite'), (req, res) ->
 
   secret = req.session._csrf
   token = req.cookies._csrf
@@ -95,7 +99,7 @@ router.post '/posts/regist/execute', (req, res) ->
     ).then ->
       client.close()
 
-router.get '/posts/regist/complete', (req, res) ->
+router.get '/posts/regist/complete', authorize('readWrite'), (req, res) ->
   res.render './account/posts/regist-complete'
 
 module.exports = router

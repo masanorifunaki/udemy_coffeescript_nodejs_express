@@ -6,3 +6,7 @@ nav.navbar.navbar-expand-md.navbar-dark.bg-dark
         a(href='/search').nav-link Search
       li.nav-item
         a(href='/account').nav-link Account
+    if locals.user
+      form(action="/account/logout", method="post").form-inline.my-2.my-lg-0
+        div.form-group
+          input(type="submit", value="logout").btn.btn-outline-success.my-2.my-sm-0
