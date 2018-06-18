@@ -2,6 +2,9 @@ CONNECTION_URL = require('../config/monogodb.config.coffee').CONNECTION_URL
 DATABSE = require('../config/monogodb.config.coffee').DATABSE
 OPTIONS = require('../config/monogodb.config.coffee').OPTIONS
 MongoClient = require('mongodb').MongoClient
+initialize = require('../lib/security/accountcontrol.coffee').initialize
+authenticate = require('../lib/security/accountcontrol.coffee').authenticate
+#authorize = require('../lib/security/accountcontrol.coffee').authorize
 router = require('express').Router()
 tokens = new require('csrf')()
 
@@ -32,8 +35,17 @@ createRegistData = (body) ->
     authors: (body.authors or '').split(',')
   }
 
-router.get '/', (req, res) ->
+router.get '/', (req, res, next) ->
+  if req.isAuthenticated()
+    next()
+  else
+    res.redirect '/account/login',
   res.render './account/index'
+
+router.get '/login', (req, res) ->
+  res.render './account/login', message: req.flash 'message'
+
+router.post '/login', authenticate()
 
 router.get '/posts/regist', (req, res) ->
   tokens.secret (error, secret) ->

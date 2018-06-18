@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+html(lang='ja')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    title ログイン
+    include ../_share/stylesheets.pug
+  body
+    include ../_share/navbar.pug
+    main.container
+      .border-bottom.mt-5.mb-5
+        h1 ログイン
+
+      .row.justify-content-center
+        form(action="/account/login", method="post").col-sm-10
+          .form-group.row
+            label(for="username").col-sm-2.col-form-label ユーザー名：
+            .col-sm-10
+              input(type="text", name="username").form-control#username
+          .form-group.row
+            label(for="password").col-sm-2.col-form-label パスワード：
+            .col-sm-10
+              input(type="text", name="password").form-control#password
+          .form-group.row
+            .col-sm-2
+            .col-sm-10
+              input(type="submit", value="ログイン").btn.btn-primary
+        if message && message.length !== 0
+          .alert.alert-danger #{message}
+
+
+
+
+    include ../_share/javascripts.pug
+
+

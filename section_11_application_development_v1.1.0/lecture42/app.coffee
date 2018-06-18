@@ -3,8 +3,12 @@ accesslogger = require './lib/log/accsesslogger.coffee'
 systemlogger = require './lib/log/systemlogger.coffee'
 express = require 'express'
 bodyParser = require 'body-parser'
+initialize = require('./lib/security/accountcontrol.coffee').initialize
+authenticate = require('./lib/security/accountcontrol.coffee').authenticate
+#authorize = require('./lib/security/accountcontrol.coffee').authorize
 cookieParser = require 'cookie-parser'
 session = require 'express-session'
+flash = require 'connect-flash'
 app = express()
 
 
@@ -27,6 +31,9 @@ app.use session(
 
 app.use bodyParser.urlencoded extended: true
 app.use bodyParser.json()
+app.use flash()
+for i in initialize()
+  app.use i
 
 app.use '/', require './routes/index.coffee'
 app.use '/posts/', require './routes/posts.coffee'
