@@ -4,9 +4,9 @@ MongoClient = require('mongodb').MongoClient
 
 router.get '/*', (req, res) ->
   MongoClient.connect(CONNECTION_URL).then((db) ->
-    query = {
-      url: { $eq: req.url }
-    }
+    query =
+      url:
+        $eq: req.url
     db = db.db 'weblog'
     return db.collection('posts').findOne(query)
     ).then((data) ->
