@@ -3,20 +3,14 @@ IS_DEVELOPMENT = NODE_ENV == 'development'
 #IS_DEVELOPMENT = NODE_ENV == 'production'
 
 module.exports =
-  env: {
-    NODE_ENV,
-    IS_DEVELOPMENT
-  },
-  path: {
-    root: './',
-    log: './log',
-    node_modules: './node_modules',
-    input: './public/source',
+  env:
+    NODE_ENV: NODE_ENV
+    IS_DEVELOPMENT: IS_DEVELOPMENT
+  path:
+    root: './'
+    log: './log'
+    node_modules: './node_modules'
+    input: './public/source'
     output: "./public/#{NODE_ENV}"
-  },
-  sass: {
+  sass:
     outputStyle: if IS_DEVELOPMENT then 'expanded' else 'compressed'
-  },
-  uglify: {
-
-  }

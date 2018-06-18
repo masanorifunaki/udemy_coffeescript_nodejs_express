@@ -17,8 +17,6 @@ app.disable 'x-powered-by'
 
 app.use('/public', express.static(__dirname + '/public/development'))
 
-# `app.use('/public', express.static(__dirname + '/public/' + (process.env.NODE_ENV === 'development' ? 'development' : 'production')));`
-
 app.use accesslogger()
 
 app.use cookieParser()
@@ -26,7 +24,7 @@ app.use session(
   secret: SESSION_SECRET
   resave: false
   saveUninitialized: true
-  name: "sid"
+  name: 'sid'
 )
 
 app.use bodyParser.urlencoded extended: true
@@ -53,6 +51,33 @@ app.use '/', do ->
 
 app.use systemlogger()
 
+app.use (req, res, next) ->
+  data =
+    method: req.method
+    protocol: req.protocol
+    version: req.httpVersion
+    url: req.url
+  res.status 404
+  if req.xhr
+    res.json data
+  else
+    res.render './404', data: data
+
+app.use (err, req, res, next) ->
+  data =
+    method: req.method
+    protocol: req.protocol
+    version: req.httpVersion
+    url: req.url
+    error:
+      name: err.name
+      message: err.message
+      stack: err.stack
+  res.status 500
+  if req.xhr
+    res.json data
+  else
+    res.render './500', data: data
 
 # application log用
 # logger = require('./lib/log/logger.coffee').application
