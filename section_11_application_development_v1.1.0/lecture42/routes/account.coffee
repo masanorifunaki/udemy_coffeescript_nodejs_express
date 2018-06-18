@@ -81,10 +81,13 @@ router.post '/posts/regist/execute', (req, res) ->
     .then(() ->
       delete req.session._csrf
       res.clearCookie '_csrf'
-      res.render './account/posts/regist-complete'
+      res.redirect '/account/posts/regist/complete'
     ).catch((error) ->
       throw error
     ).then ->
       client.close()
+
+router.get '/posts/regist/complete', (req, res) ->
+  res.render './account/posts/regist-complete'
 
 module.exports = router
