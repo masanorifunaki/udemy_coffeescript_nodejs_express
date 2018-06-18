@@ -10,27 +10,28 @@ router.get '/', (req, res) ->
   MongoClient.connect(CONNECTION_URL).then((db) ->
     db = db.db 'weblog'
     regexp = new RegExp(".*#{keyword}.*")
-    query = {
+
+    query =
       $or: [
-        { title: regexp},
+        { title: regexp },
         { content: regexp }
       ]
-    }
+
     # 配列
     Promise.all [
       db.collection('posts').find(query).count(),
       db.collection('posts').find(query).skip((page - 1) * MAX_ITEMS_PER_PAGE).limit(MAX_ITEMS_PER_PAGE).toArray()
     ]
   ).then((results) ->
-    res.render 'list', {
+    data =
       keyword: keyword
       count: results[0]
       lists: results[1]
-      pagination: {
+      pagination:
         max: Math.ceil results[0] / MAX_ITEMS_PER_PAGE
         current: page
-      }
-    }
+
+    res.render 'list', data: data
   ).catch (err) ->
       return
 
