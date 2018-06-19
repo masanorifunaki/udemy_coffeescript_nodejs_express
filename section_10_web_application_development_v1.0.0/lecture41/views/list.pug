@@ -14,19 +14,19 @@ html(lang="en")
           i.fa.fa-search.fa-fw
           span 記事検索
       form(action="/search", method="get").form-inline
-        input(type="text", name="keyword" value=`${data.keyword}`)#keyword.form-control
+        input(type="text", name="keyword" value=`${keyword}`)#keyword.form-control
         input(type="submit", value="検索").btn.btn-default
       div
-        p.form-control-static 結果: #{data.count}
+        p.form-control-static 結果: #{count}
       div
-        each list in data.lists
+        each list in lists
           include ./item.pug
       div
         ul.pagination
-          - for (var i = 1; i <= data.pagination.max; i++)
-            if i !== data.pagination.current
+          - for (var i = 1; i <= pagination.max; i++)
+            if i !== pagination.current
               li
-                a(href!=`/search?keyword=${data.keyword}&page=${i}`) #{i}
+                a(href!=`/search?keyword=${keyword}&page=${i}`) #{i}
             else
               li
                 a #{i}

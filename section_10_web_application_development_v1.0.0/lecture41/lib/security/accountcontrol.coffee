@@ -9,19 +9,15 @@ passport.serializeUser (email, done) ->
   done null, email
 
 passport.deserializeUser (email, done) ->
-  MongoClient.connect(CONNECTION_URL).then((client) ->
-      client.db(DATABASE).collection('users')
-      .findOne(
-        email:
-          $eq: email
-      )
-  ).then((user) ->
-    done(null,
+  MongoClient.connect(CONNECTION_URL).then (client) ->
+    client.db(DATABASE).collection('users')
+    .findOne(email: {$eq: email})
+  .then (user) ->
+    done null,
       email: user.email
       name: user.name
       role: user.role
-    )
-  ).catch (err) ->
+  .catch (err) ->
     done err
 
 passport.use(
@@ -31,18 +27,13 @@ passport.use(
     passwordField: 'password',
     passReqToCallback: true
   }, (req, username, password, done) ->
-    MongoClient.connect(CONNECTION_URL).then((client) ->
+    MongoClient.connect(CONNECTION_URL).then (client) ->
       client.db(DATABASE).collection('users')
-      .findOne(
-          email:
-            $eq: username
-          password:
-            $eq: password
-        )
-    ).then((user) ->
-      done null, user.email
-    ).catch (err) ->
-      done null, false, req.flash('message', 'ユーザー名 または パスワード が違います。')
+      .findOne(email: {$eq: username}, password:{$eq: password})
+      .then (user) ->
+        done null, user.email
+      .catch (err) ->
+        done null, false, req.flash 'message', 'ユーザー名 または パスワード が違います。'
 )
 
 initialize = ->

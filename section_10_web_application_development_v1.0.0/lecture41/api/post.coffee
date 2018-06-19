@@ -11,18 +11,16 @@ router.get '/*', (req, res) ->
 
     db = client.db DATABASE
 
-    db.collection('posts')
-      .findOne(
-        url:
-          $eq: req.url
-        ).then((post) ->
+    db.collection 'posts'
+      .findOne url: { $eq: req.url }
+      .then (post) ->
         if post
           res.json post
         else
           res.status(404).json()
-      ).catch((err) ->
+      .catch (err) ->
         res.json err
-      ).then ->
+      .then ->
         client.close()
 
 module.exports = router

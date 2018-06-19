@@ -38,7 +38,7 @@ router.get '/', authorize('owner'), (req, res) ->
   res.render 'account'
 
 router.get '/login', (req, res) ->
-  res.render 'login', message: req.flash('message')
+  res.render 'login', message: req.flash 'message'
 
 router.post '/login', authenticate()
 
@@ -51,20 +51,20 @@ router.get '/post/regist', authorize('owner'), (req, res) ->
 
 router.post '/post/regist', authorize('owner'), (req, res) ->
   body = req.body
-  errors = validate(body)
-  original = createRegistData(body)
+  errors = validate body
+  original = createRegistData body
 
   if errors
     res.render 'regist-form', errors: errors, original: original
     return
 
-  MongoClient.connect(CONNECTION_URL).then((db) ->
+  MongoClient.connect(CONNECTION_URL).then (db) ->
     db = db.db 'weblog'
     db.collection('posts').insertOne original
-  ).then((result) ->
-    res.render 'regist-complete'
-  ).catch (err) ->
-    console.log errors
-    res.render 'regist-form', errors: errors, original: original
+    .then (result) ->
+      res.render 'regist-complete'
+    .catch (err) ->
+      console.log errors
+      res.render 'regist-form', errors: errors, original: original
 
 module.exports = router
