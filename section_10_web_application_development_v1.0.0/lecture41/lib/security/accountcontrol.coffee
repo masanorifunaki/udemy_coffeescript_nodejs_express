@@ -11,15 +11,16 @@ passport.serializeUser (email, done) ->
 passport.deserializeUser (email, done) ->
   MongoClient.connect(CONNECTION_URL).then((client) ->
       client.db(DATABASE).collection('users')
-      .findOne({
-        email: { $eq: email }
-      })
+      .findOne(
+        email:
+          $eq: email
+      )
   ).then((user) ->
-    done(null, {
-      email: user.email,
-      name: user.name,
+    done(null,
+      email: user.email
+      name: user.name
       role: user.role
-    })
+    )
   ).catch (err) ->
     done err
 
@@ -31,10 +32,13 @@ passport.use(
     passReqToCallback: true
   }, (req, username, password, done) ->
     MongoClient.connect(CONNECTION_URL).then((client) ->
-      client.db(DATABASE).collection('users').findOne({
-          email: { $eq: username },
-          password: { $eq: password }
-        })
+      client.db(DATABASE).collection('users')
+      .findOne(
+          email:
+            $eq: username
+          password:
+            $eq: password
+        )
     ).then((user) ->
       done null, user.email
     ).catch (err) ->
@@ -53,10 +57,9 @@ initialize = ->
 
 authenticate = ->
   return passport.authenticate(
-    'local-login', {
+    'local-login',
       successRedirect: '/account',
       failureRedirect: '/account/login'
-    }
   )
 
 authorize = (role) ->
@@ -66,8 +69,7 @@ authorize = (role) ->
     else
       res.redirect '/account/login'
 
-module.exports = {
-  initialize,
-  authenticate,
-  authorize
-}
+module.exports =
+  initialize: initialize
+  authenticate: authenticate
+  authorize: authorize

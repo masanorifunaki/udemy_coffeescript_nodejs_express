@@ -23,10 +23,10 @@ for level of levels.levels
     proto[level].call application, message
 
 # Exports module
-module.exports = {
-  log4js,
-  system,
-  application,
-  access
-}
+module.exports =
+  log4js: log4js
+  system: system
+  application: application
+  access: access
+
 

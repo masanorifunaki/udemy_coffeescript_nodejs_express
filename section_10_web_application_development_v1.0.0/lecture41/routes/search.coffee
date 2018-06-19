@@ -13,8 +13,8 @@ router.get '/', (req, res) ->
 
     query =
       $or: [
-        { title: regexp },
-        { content: regexp }
+        title: regexp
+        content: regexp
       ]
 
     # 配列

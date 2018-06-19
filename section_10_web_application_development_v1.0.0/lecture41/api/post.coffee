@@ -12,8 +12,10 @@ router.get '/*', (req, res) ->
     db = client.db DATABASE
 
     db.collection('posts')
-      .findOne({ url: { $eq: req.url } })
-      .then((post) ->
+      .findOne(
+        url:
+          $eq: req.url
+        ).then((post) ->
         if post
           res.json post
         else
