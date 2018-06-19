@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible", content="ie=edge")
+    title Search Page
+    include ./_share/stylesheets.pug
+  body
+    include ./_share/navbar.pug
+    .container
+      .page-header
+        h1
+          i.fa.fa-search.fa-fw
+          span 記事検索
+      form(action="/search", method="get").form-inline
+        input(type="text", name="keyword" value=`${keyword}`)#keyword.form-control
+        input(type="submit", value="検索").btn.btn-default
+      div
+        p.form-control-static 結果: #{count}
+      div
+        each list in lists
+          include ./item.pug
+      div
+        ul.pagination
+          - for (var i = 1; i <= pagination.max; i++)
+            if i !== pagination.current
+              li
+                a(href!=`/search?keyword=${keyword}&page=${i}`) #{i}
+            else
+              li
+                a #{i}
+
+
+
+
+
+
+
+

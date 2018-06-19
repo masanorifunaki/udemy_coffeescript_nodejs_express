@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+html(lang="ja")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible", content="ie=edge")
+    title Account Home Page
+    include ./_share/stylesheets.pug
+  body
+    include ./_share/navbar.pug
+    .container
+      .page-header
+        h1 新規記事登録
+      form(action="/account/post/regist", method="post").form-horizontal
+        - var original = locals.original || {};
+        if locals.errors
+          .alert.alert-danger
+            for err in errors
+              div
+                i.fa.fa-exclamation-circle.fa-fw.mr-2
+                span #{err}
+        .form-group
+          label(for="url").col-sm-2.control-label URL
+          div.col-sm-10
+            if original.url
+              input(type="text", name="url" value=`${original.url}`)#url.form-control
+            else
+              input(type="text", name="url")#url.form-control
+        .form-group
+          label(for="url").col-sm-2.control-label タイトル
+          div.col-sm-10
+            if original.title
+              input(type="text", name="title" value=`${original.title}`)#title.form-control
+            else
+              input(type="text", name="title")#title.form-control
+        .form-group
+          label(for="content").col-sm-2.control-label 本文
+          div.col-sm-10
+            textarea(name="content", rows="6")#content #{original.content}
+        .form-group
+          label(for="keywords").col-sm-2.control-label キーワード
+          div.col-sm-10
+            if original.keywords
+              input(type="text", name="keywords" value=`${original.keywords}`)#keywords.form-control
+            else
+              input(type="text", name="keywords")#keywords.form-control
+        .form-group
+          label(for="authors").col-sm-2.control-label 著者
+          div.col-sm-10
+            if original.authors
+              input(type="text", name="authors" value=`${original.authors}`)#authors.form-control
+            else
+              input(type="text", name="authors")#authors.form-control
+        .form-group
+          div.col-sm-offset-2.col-sm-10
+            input(type="submit", value="送信").btn.btn-primary
+
