@@ -55,7 +55,7 @@ insertUsers = (db) ->
 
 insertPrivileges = (db) ->
   Promise.all [
-    db.collection('privileges').insertMany([
+    db.collection('privileges').insertMany [
       {
         role: 'default'
         permissions: [ 'read' ]
@@ -64,21 +64,22 @@ insertPrivileges = (db) ->
         role: 'owner'
         permissions: [ 'readWrite' ]
       }
-    ])
-    db.collection('privileges').createIndex({ role: 1 },
+    ]
+    db.collection('privileges').createIndex { role: 1 },
       unique: true
-      background: true)
+      background: true
   ]
 
 
 MongoClient.connect CONNECTION_URL, OPTIONS, (error, client) ->
-  db = client.db(DATABSE)
-  Promise.all([
-    insertPosts(db),
-    insertUsers(db),
-    insertPrivileges(db)
-  ]).catch((error) ->
+  db = client.db DATABSE
+  Promise.all [
+    insertPosts db
+    insertUsers db
+    insertPrivileges db
+  ]
+  .catch (error) ->
     console.log error
-  ).then ->
+  .then ->
     client.close()
 

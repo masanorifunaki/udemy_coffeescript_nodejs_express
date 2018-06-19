@@ -10,20 +10,19 @@ html(lang='ja')
     include ../_share/navbar.pug
     main.container
       .float-right
-        span.badge.badge-secondary #{data.count}
+        span.badge.badge-secondary #{count}
       form(action="/search", method="get").form-inline.mt-5.mb-5
-        - var keyword = data.keyword || ''
         input(type="text", name="keyword" value=`${keyword}`)#keyword.form-control
         input(type="submit", value="検索").btn.btn-info.ml-2
 
       .mt-5.mb-5
-        each list in data.lists
+        each list in lists
           include ./item.pug
 
       nav
         ul.pagination
-          - for (i = 1; i <= data.pagination.max; i++)
-            if i !== data.pagination.current
+          - for (i = 1; i <= pagination.max; i++)
+            if i !== pagination.current
               li.page-item
                 a(href!=`/search?keyword=${keyword}&page=${i}`).page-link #{i}
             else
@@ -32,5 +31,3 @@ html(lang='ja')
                   span.page-link.disabled #{i}
 
     include ../_share/javascripts.pug
-
-

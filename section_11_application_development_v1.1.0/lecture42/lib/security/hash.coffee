@@ -8,9 +8,9 @@ digest = (text) ->
 
   i = PASSWORD_STRETCH
   while i--
-    hash = crypto.createHash('sha256')
+    hash = crypto.createHash 'sha256'
     hash.update text
-    text = hash.digest('hex')
+    text = hash.digest 'hex'
 
   return text
 

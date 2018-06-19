@@ -90,13 +90,13 @@ router.post '/posts/regist/execute', authorize('readWrite'), (req, res) ->
     db = client.db DATABSE
     db.collection('posts')
     .insertOne(original)
-    .then(() ->
+    .then () ->
       delete req.session._csrf
       res.clearCookie '_csrf'
       res.redirect '/account/posts/regist/complete'
-    ).catch((error) ->
+    .catch (error) ->
       throw error
-    ).then ->
+    .then ->
       client.close()
 
 router.get '/posts/regist/complete', authorize('readWrite'), (req, res) ->

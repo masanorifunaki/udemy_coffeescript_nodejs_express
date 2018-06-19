@@ -15,7 +15,7 @@ app = express()
 app.set 'view engine', 'pug'
 app.disable 'x-powered-by'
 
-app.use('/public', express.static(__dirname + '/public/development'))
+app.use '/public', express.static __dirname + '/public/development'
 
 app.use accesslogger()
 
@@ -61,7 +61,7 @@ app.use (req, res, next) ->
   if req.xhr
     res.json data
   else
-    res.render './404', data: data
+    res.render './404', data
 
 app.use (err, req, res, next) ->
   data =
@@ -77,7 +77,7 @@ app.use (err, req, res, next) ->
   if req.xhr
     res.json data
   else
-    res.render './500', data: data
+    res.render './500', data
 
 # application log用
 # logger = require('./lib/log/logger.coffee').application

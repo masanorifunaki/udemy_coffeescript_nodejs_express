@@ -19,12 +19,12 @@ html(lang='ja')
         tr
           th リクエスト
           td
-            span  #{data.method}
-            span  #{data.url}
-            - var protocol = (data.protocol || '').toUpperCase()
+            span  #{method}
+            span  #{url}
+            - var protocol = (protocol || '').toUpperCase()
             span  #{protocol}
-            span  #{data.version}
-      if data.error
+            span  #{version}
+      if error
         h2 エラー
         table.table.table-bordered
           colgroup
@@ -32,13 +32,13 @@ html(lang='ja')
             col(style="width:70%")
           tr
             th name
-            td #{data.error.name}
+            td #{error.name}
           tr
             th message
-            td #{data.error.message}
+            td #{error.message}
           tr
             th stack
-            td #{data.error.stack}
+            td #{error.stack}
 
     include ./_share/javascripts.pug
 

@@ -6,7 +6,7 @@ MongoClient = require('mongodb').MongoClient
 router = require('express').Router()
 
 router.get '/*', (req, res) ->
-  page = if req.query.page then parseInt(req.query.page) else 1
+  page = if req.query.page then req.query.page - 0 else 1
   keyword = req.query.keyword || ''
   regexp = new RegExp ".*#{keyword}.*"
   # {} の省略不可
@@ -17,28 +17,29 @@ router.get '/*', (req, res) ->
     ]
   MongoClient.connect CONNECTION_URL, OPTIONS, (error, client) ->
     db = client.db DATABSE
-    Promise.all([
-      db.collection('posts')
-        .find(query)
-        .count(),
-      db.collection('posts')
-        .find(query)
-        .sort( published: -1 )
-        .skip((page - 1) * MAX_ITEMS_PER_PAGE)
-        .limit(MAX_ITEMS_PER_PAGE)
+    Promise.all [
+      db.collection 'posts'
+        .find query
+        .count()
+      db.collection 'posts'
+        .find query
+        .sort published: -1
+        .skip (page - 1) * MAX_ITEMS_PER_PAGE
+        .limit MAX_ITEMS_PER_PAGE
         .toArray()
-    ]).then((results) ->
-        data =
-          keyword: keyword
-          count: results[0]
-          lists: results[1]
-          pagination:
-            max: Math.ceil results[0] / MAX_ITEMS_PER_PAGE
-            current: page
-        res.render './search/list', data: data
-      ).catch((error) ->
-        throw error
-      ).then ->
-        client.close()
+    ]
+    .then (results) ->
+      data =
+        keyword: keyword
+        count: results[0]
+        lists: results[1]
+        pagination:
+          max: Math.ceil results[0] / MAX_ITEMS_PER_PAGE
+          current: page
+      res.render './search/list', data
+    .catch (error) ->
+      throw error
+    .then ->
+      client.close()
 
 module.exports = router

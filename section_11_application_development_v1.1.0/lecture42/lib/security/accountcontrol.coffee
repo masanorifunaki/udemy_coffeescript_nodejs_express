@@ -13,24 +13,22 @@ passport.serializeUser (email, done) ->
 passport.deserializeUser (email, done) ->
   MongoClient.connect CONNECTION_URL, OPTIONS, (error, client) ->
     db = client.db DATABSE
-    db.collection('users')
-      .findOne({ email })
-      .then((user) ->
-        return new Promise((resolve, reject) ->
-           db.collection('privileges')
-            .findOne(role: user.role)
-            .then((privilege) ->
+    db.collection 'users'
+      .findOne { email }
+      .then (user) ->
+        return new Promise (resolve, reject) ->
+           db.collection 'privileges'
+            .findOne role: user.role
+            .then (privilege) ->
               user.permissions = privilege.permissions
               resolve user
-            ).catch((error) ->
+            .catch (error) ->
               reject error
-            )
-        )
-      ).then((user) ->
-        done(null, user)
-      ).catch((error) ->
-        done(error)
-      ).then ->
+      .then (user) ->
+        done null, user
+      .catch (error) ->
+        done error
+      .then ->
         client.close()
 
 passport.use(
@@ -42,11 +40,9 @@ passport.use(
   }, (req, username, password, done) ->
     MongoClient.connect CONNECTION_URL, OPTIONS, (error, client) ->
       db = client.db DATABSE
-      db.collection('users')
-        .findOne(
-          email: username,
-          password: hash.digest password
-        ).then((user) ->
+      db.collection 'users'
+        .findOne email: username, password: hash.digest password
+        .then (user) ->
           if user
             req.session.regenerate (error) ->
             if error
@@ -54,12 +50,12 @@ passport.use(
             else
               done null, user.email
           else
-            done null, false, req.flash('message', 'ユーザー名 または パスワード が間違っています。')
-        ).catch((error) ->
+            done null, false, req.flash 'message', 'ユーザー名 または パスワード が間違っています。'
+        .catch (error) ->
           done error
-        ).then ->
+        .then ->
           client.close()
-  )
+)
 
 
 initialize = ->

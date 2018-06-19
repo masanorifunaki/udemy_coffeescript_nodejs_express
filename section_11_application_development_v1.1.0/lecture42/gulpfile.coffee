@@ -6,17 +6,17 @@ register = 'coffee-script/register'
 load './gulp/tasks', recurse: true
 
 development = [
-  'copy-third_party',
-  'copy-images',
-  'copy-javascripts',
+  'copy-third_party'
+  'copy-images'
+  'copy-javascripts'
   'compile-sass'
 ]
 
 production = [
-  'copy-third_party',
-  'copy-images',
-  'copy-javascripts',
+  'copy-third_party'
+  'copy-images'
+  'copy-javascripts'
   'compile-sass'
 ]
 
-gulp.task('default', if config.env.IS_DEVELOPMENT then development else production)
+gulp.task 'default', if config.env.IS_DEVELOPMENT then development else production
