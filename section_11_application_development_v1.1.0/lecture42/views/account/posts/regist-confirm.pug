@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+html(lang='ja')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    title 新規記事登録
+    include ../../_share/stylesheets.pug
+  body
+    include ../../_share/navbar.pug
+    main.container
+      .border-bottom.mt-5.mb-5
+        h1 新規記事登録
+      form
+        .form-group.row
+          label(for="url").col-sm-2.col-form-label URL:
+          .col-sm-10
+            input(type="text", name="url" readonly value=`${original.url}`).form-control-plaintext#url
+        .form-group.row
+          label(for="title").col-sm-2.col-form-label タイトル:
+          .col-sm-10
+            input(type="text", name="title" readonly value=`${original.title}`).form-control-plaintext#title
+        .form-group.row
+          label(for="content").col-sm-2.col-form-label 本文:
+          .col-sm-10
+            textarea(type="text", name="content" rows="6" readonly).form-control-plaintext #{original.content}
+        .form-group.row
+          label(for="keywords").col-sm-2.col-form-label キーワード:
+          .col-sm-10
+            input(type="text", name="keywords" readonly value=`${original.keywords}`).form-control-plaintext#keywords
+        .form-group.row
+          label(for="authors").col-sm-2.col-form-label 著者:
+          .col-sm-10
+            input(type="text", name="authors" readonly value=`${original.authors}`).form-control-plaintext#authors
+        .form-group.row
+          .col-sm-2
+          .col-sm-1
+            input(type="submit", value="登録" data-method="POST" data-action="/account/posts/regist/execute").btn.btn-primary
+          .col-sm-1
+            input(type="submit", value="戻る" data-method="POST" data-action="/account/posts/regist/input").btn.btn-secondary
+    include ../../_share/javascripts.pug
+    script(src="/public/javascripts/account/posts/regist.js")
+

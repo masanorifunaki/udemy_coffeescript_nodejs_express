@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+html(lang='ja')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    title 新規記事登録
+    include ../../_share/stylesheets.pug
+  body
+    include ../../_share/navbar.pug
+    main.container
+      .border-bottom.mt-5.mb-5
+        h1 新規記事登録
+      form
+        if errors
+          .alert.alert-danger
+            for err in errors
+              div
+                i.fa.fa-exclamation-circle.fa-fw.mr-2
+                span #{err}
+        .form-group.row
+          label(for="url").col-sm-2.col-form-label URL:
+          .col-sm-10
+            if original
+              input(type="text", name="url" value=`${original.url}`).form-control#url
+            else
+              input(type="text", name="url").form-control#url
+        .form-group.row
+          label(for="title").col-sm-2.col-form-label タイトル:
+          .col-sm-10
+            if original
+              input(type="text", name="title" value=`${original.title}`).form-control#url
+            else
+              input(type="text", name="title").form-control#title
+        .form-group.row
+          label(for="content").col-sm-2.col-form-label 本文:
+          .col-sm-10
+            if original
+              textarea(type="text", name="content" rows="6").form-control #{original.content}
+            else
+              textarea(type="text", name="content" rows="6").form-control
+        .form-group.row
+          label(for="keywords").col-sm-2.col-form-label キーワード:
+          .col-sm-10
+            if original
+              input(type="text", name="keywords" value=`${original.keywords}`).form-control#url
+            else
+              input(type="text", name="keywords").form-control#keywords
+        .form-group.row
+          label(for="authors").col-sm-2.col-form-label 著者:
+          .col-sm-10
+            if original
+              input(type="text", name="authors" value=`${original.authors}`).form-control#url
+            else
+              input(type="text", name="authors").form-control#authors
+        .form-group.row
+          .col-sm-2
+          .col-sm-10
+            input(type="submit", value="確認" data-method="POST" data-action="/account/posts/regist/confirm").btn.btn-primary
+
+    include ../../_share/javascripts.pug
+    script(src="/public/javascripts/account/posts/regist.js")

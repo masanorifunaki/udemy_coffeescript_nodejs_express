@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+html(lang='ja')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    title Welcome Page
+    include ../_share/stylesheets.pug
+  body
+    include ../_share/navbar.pug
+    main.container
+      .border-bottom.mt-5.mb-5
+        h1 #{doc.title}
+      dl.row.mt-5.mb-5
+        dt.col-3 公開日:
+        - var published = doc.published.toLocaleString()
+        dd.col-9 #{published}
+        dt.col-3 著者:
+        dd.col-9 #{doc.authors}
+        dt.col-3 キーワード:
+        dd.col-9 #{doc.keywords}
+      p.lead #{doc.content}
+
+    include ../_share/javascripts.pug
+
+

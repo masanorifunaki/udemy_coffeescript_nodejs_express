@@ -1,0 +1,43 @@
+{
+  "name": "lecture42",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.coffee",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "gulp": "gulp",
+    "build-dev": "set NODE_ENV=development && gulp",
+    "build-prod": "set NODE_ENV=production && gulp",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "coffee-script": "^1.12.7",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-coffee": "^3.0.2",
+    "gulp-sass": "^4.0.1",
+    "gulp-uglify": "^3.0.0",
+    "require-dir": "^1.0.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "bootstrap": "^4.1.1",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "csrf": "^3.0.6",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.3.1",
+    "log4js": "^2.9.0",
+    "mongodb": "^3.0.10",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "popper.js": "^1.14.3",
+    "pug": "^2.0.3"
+  }
+}

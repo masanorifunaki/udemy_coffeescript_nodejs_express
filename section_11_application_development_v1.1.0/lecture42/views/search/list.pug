@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+html(lang='ja')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    title 検索
+    include ../_share/stylesheets.pug
+  body
+    include ../_share/navbar.pug
+    main.container
+      .float-right
+        span.badge.badge-secondary #{count}
+      form(action="/search", method="get").form-inline.mt-5.mb-5
+        input(type="text", name="keyword" value=`${keyword}`)#keyword.form-control
+        input(type="submit", value="検索").btn.btn-info.ml-2
+
+      .mt-5.mb-5
+        each list in lists
+          include ./item.pug
+
+      nav
+        ul.pagination
+          - for (i = 1; i <= pagination.max; i++)
+            if i !== pagination.current
+              li.page-item
+                a(href!=`/search?keyword=${keyword}&page=${i}`).page-link #{i}
+            else
+              li.page-item.active
+                a
+                  span.page-link.disabled #{i}
+
+    include ../_share/javascripts.pug
